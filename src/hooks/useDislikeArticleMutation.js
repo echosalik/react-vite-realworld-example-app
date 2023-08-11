@@ -3,18 +3,18 @@ import { useQueryClient, useMutation } from 'react-query'
 import axios from 'axios'
 import useAuth from './useAuth'
 
-function useFavoriteArticleMutation(slug) {
+function useDislikeArticleMutation(slug) {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { isAuth } = useAuth()
   const queryKey = `/articles/${slug}`
 
   return useMutation(
-    (/** @type {{favorited: boolean}} */ { favorited }) => {
-      if(favorited){
-        return axios.delete(`/articles/${slug}/favorite`);
+    (/** @type {{disliked: boolean}} */ { disliked }) => {
+      if(disliked){
+        return axios.delete(`/articles/${slug}/dislike`);
       } 
-      return axios.post(`/articles/${slug}/favorite`);
+      return axios.post(`/articles/${slug}/dislike`);
     },
     {
       onSuccess: async () => {
@@ -24,15 +24,15 @@ function useFavoriteArticleMutation(slug) {
           await queryClient.cancelQueries(queryKey)
 
           queryClient.setQueryData(queryKey, ({ article: currentArticle }) => {
-            const count = currentArticle.favoritesCount
-
+            const count = currentArticle.dislikesCount
+            
             return {
               article: {
                 ...currentArticle,
-                favorited: !currentArticle.favorited,
-                favoritesCount: currentArticle.favorited ? count - 1 : count + 1,
-                disliked: (!currentArticle.favorited) ? false : currentArticle.disliked,
-                dislikesCount: (!currentArticle.favorited) ? ((count - 1) < 0 ? 0 : count - 1) : currentArticle.dislikesCount,
+                disliked: !currentArticle.disliked,
+                dislikesCount: currentArticle.disliked ? count - 1 : count + 1,
+                favorited: (!currentArticle.disliked) ? false : currentArticle.favorited,
+                favoritesCount: (!currentArticle.disliked) ? ((count - 1) < 0 ? 0 : count - 1) : currentArticle.favoritesCount,
               },
             }
           })
@@ -52,4 +52,4 @@ function useFavoriteArticleMutation(slug) {
   )
 }
 
-export default useFavoriteArticleMutation
+export default useDislikeArticleMutation

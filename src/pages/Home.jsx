@@ -3,18 +3,26 @@ import React from 'react'
 import { ArticleList, PopularTags } from '../components'
 import { useAuth } from '../hooks'
 
-const initialFilters = { tag: '', offset: null, feed: false }
+const initialFilters = { tag: [], offset: null, feed: false }
+const selectedTags = [];
 
 function Home() {
   const { isAuth } = useAuth()
   const [filters, setFilters] = React.useState({ ...initialFilters, feed: isAuth })
 
   React.useEffect(() => {
-    setFilters({ ...initialFilters, feed: isAuth })
+    setFilters({ ...initialFilters, feed: isAuth });
   }, [isAuth])
 
-  function onTagClick(tag) {
-    setFilters({ ...initialFilters, tag })
+  function onTagClick(tag, state) {
+    if(state){
+      selectedTags.push(tag.tag);
+    } else {
+      const id = selectedTags.indexOf(tag.tag);
+      if(id !== -1) delete selectedTags[id];
+    }
+    const ftag = selectedTags.filter(x => x !== "");
+    setFilters({ ...initialFilters, tag: ftag })
   }
 
   function onGlobalFeedClick() {
@@ -63,9 +71,9 @@ function Home() {
                   </button>
                 </li>
                 {filters?.tag && (
-                  <li className="nav-item">
-                    <a className="nav-link active"># {filters?.tag}</a>
-                  </li>
+                  filters.tag.map((f) => <li className="nav-item">
+                      <a className="nav-link active"># {f}</a>
+                    </li>)
                 )}
               </ul>
             </div>

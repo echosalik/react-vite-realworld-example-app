@@ -1,11 +1,25 @@
+// @ts-nocheck
 import React from 'react'
+import { isEmpty } from 'lodash-es'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import { Home, Settings, Editor, Article, Profile, Auth } from './pages'
+import { Home, Settings, Editor, Article, Profile, Auth, SiteSettings } from './pages'
 import { AuthRoute, GuestRoute, Navbar } from './components'
+import { useSiteSettingsQuery } from './hooks'
 
-import './App.css'
+import './theme.css'
 
 function App() {
+  const { data } = useSiteSettingsQuery();
+  
+  React.useEffect(() => {
+    if(!isEmpty(data)){
+      // eslint-disable-next-line no-restricted-syntax
+      for(const d of data.settings){
+        document.documentElement.style.setProperty(`--${d.name}`, d.value);
+      }
+    }
+  }, [ data ]);
+  
   return (
     <Router>
       <header>
@@ -16,6 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <GuestRoute path="/register" element={<Auth key="register" />} />
           <GuestRoute path="/login" element={<Auth key="login" />} />
+          <AuthRoute path="/site-settings" element={<SiteSettings />} />
           <AuthRoute path="/settings" element={<Settings />} />
           <AuthRoute path="/editor" element={<Editor />} />
           <Route path="/editor/:slug" element={<Editor />} />

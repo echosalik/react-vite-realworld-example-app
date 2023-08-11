@@ -7,8 +7,9 @@ function getAuthUser() {
   const jwt = window.localStorage.getItem('jwtToken')
 
   if (!jwt) return {}
-
-  return JSON.parse(atob(jwt))
+  const user = JSON.parse(atob(jwt));
+  axios.defaults.headers.Authorization = `Token ${user.token}`
+  return user
 }
 
 const state = proxyWithComputed(
@@ -17,6 +18,7 @@ const state = proxyWithComputed(
   },
   {
     isAuth: (snap) => !isEmpty(snap.authUser),
+    isAdmin: (snap) => snap.authUser.is_admin,
   }
 )
 
@@ -44,7 +46,7 @@ const actions = {
 
 function useAuth() {
   const snap = useSnapshot(state)
-
+  
   return {
     ...snap,
     ...actions,

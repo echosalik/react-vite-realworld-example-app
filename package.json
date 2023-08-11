@@ -2,6 +2,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "start:dev": "react-scripts start",
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -33,6 +34,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "faker": "^5.5.3",
     "miragejs": "^0.1.41",
+    "sass": "^1.65.1",
     "vite": "^2.3.8"
   }
 }

@@ -5,11 +5,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { createServer } from 'miragejs'
 import axios from 'axios'
 import App from './App'
-import makeServer from './server'
 
-if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'https://api.realworld.io/api'
-}
+axios.defaults.baseURL = 'http://localhost:3000/api';
 
 const defaultQueryFn = async ({ queryKey }) => {
   const { data } = await axios.get(queryKey[0], { params: queryKey[1] })
@@ -34,8 +31,6 @@ if (window.Cypress && process.env.NODE_ENV === 'test') {
     },
   })
   cyServer.logging = false
-} else if(process.env.NODE_ENV === 'development') {
-  makeServer({ environment: 'development' })
 }
 
 ReactDOM.render(

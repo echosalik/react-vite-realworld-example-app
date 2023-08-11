@@ -25,12 +25,20 @@ function Navbar() {
                   &nbsp;New Post
                 </NavLink>
               </li>
+              { authUser.is_admin && (
+                <li className="nav-item">
+                  <NavLink activeClassName="active" className="nav-link" to="/site-settings">
+                    <i className="ion-gear" />
+                    &nbsp;Site Settings
+                  </NavLink>
+                </li>
+              )}
               <li className="nav-item">
-                <NavLink activeClassName="active" className="nav-link" to="/settings">
-                  <i className="ion-gear-a" />
-                  &nbsp;Settings
-                </NavLink>
-              </li>
+                  <NavLink activeClassName="active" className="nav-link" to="/settings">
+                    <i className="ion-gear-a" />
+                    &nbsp;Settings
+                  </NavLink>
+                </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to={`/@${authUser?.username}`}>
                   <img style={{ width: 24, height: 24, marginRight: 4, borderRadius: '50%' }} src={authUser?.image} />

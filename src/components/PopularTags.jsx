@@ -9,18 +9,28 @@ function PopularTags({ onTagClick }) {
     if (isError) return <p>Loading tags failed :(</p>
 
     return data.tags.map((tag) => (
-      <a
-        href="#"
-        key={tag}
-        className="tag-pill tag-default"
-        onClick={(e) => {
-          e.preventDefault()
+      <span className="tag-pill tag-default">
+        <input type='checkbox'
+          name="tag" key={tag.id} 
+          onChange={(e) => {
+            onTagClick(tag, e.target.checked)
+            // e.preventDefault()
+          }}
+        />
+        {tag.tag}
+      </span>
+      // <a
+      //   href="#"
+      //   key={tag.id}
+      //   className="tag-pill tag-default"
+      //   onClick={(e) => {
+      //     e.preventDefault()
 
-          onTagClick(tag)
-        }}
-      >
-        {tag}
-      </a>
+      //     onTagClick(tag.tag)
+      //   }}
+      // >
+      //   {tag.tag}
+      // </a>
     ))
   }
 

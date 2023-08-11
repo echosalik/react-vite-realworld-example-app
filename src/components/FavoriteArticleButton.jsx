@@ -19,7 +19,7 @@ function FavoriteArticleButton({ slug, favorited, children, className = '' }) {
       onClick={() => mutate({ favorited })}
       disabled={isLoading}
     >
-      <i className="ion-heart" />
+      <i className="ion-thumbsup" />
       {children}
     </button>
   )

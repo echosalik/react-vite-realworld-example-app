@@ -8,13 +8,13 @@ import ArticlePreview from './ArticlePreview'
  * @typedef {object} Filters
  * @property {string} [Filter.author]
  * @property {string} [Filter.favorited]
- * @property {string} [Filter.tag]
+ * @property {string[]} [Filter.tag]
  * @property {number} [Filter.offset]
  * @property {boolean} [Filter.feed]
  */
 
 /** @type {Filters} */
-const initialFilters = { author: null, favorited: null, tag: null, offset: null, feed: false }
+const initialFilters = { author: null, favorited: null, tag: [], offset: null, feed: false }
 const limit = 10
 
 function ArticleList({ filters = initialFilters }) {
